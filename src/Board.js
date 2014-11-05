@@ -79,7 +79,7 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      var row = this.row()[rowIndex];
+      var row = this.rows()[rowIndex];
       var sum = 0;
       for (var i = 0; i < row.length; i++) {
         sum = sum + row[i];
@@ -92,12 +92,12 @@
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      // var allRows = this.row();
-
-      // for (var i = 0; i < allRows.length; i++) {
-
-      // }
-
+      var allRows = this.rows();
+      for (var i = 0; i < allRows.length; i++) {
+        if (this.hasRowConflictAt(i)) {
+          return true
+        };
+      }
       return false; // fixme
     },
 
@@ -108,12 +108,26 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
+      var allRows = this.rows();
+      var sum = 0;
+      for (var i = 0; i < allRows.length; i++) {
+        sum += allRows[i][colIndex];
+      }
+      if (sum>1) {
+        return true;
+      }
       return false; // fixme
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return false; // fixme
+      var allRows = this.rows();
+      for (var i = 0; i < allRows.length; i++) {
+        if(this.hasColConflictAt(i)){
+          return true;
+        }
+        return false;
+      }
     },
 
 
@@ -123,11 +137,24 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
+      var allRows = this.rows();
+      var sum = 0;
+      var idx = majorDiagonalColumnIndexAtFirstRow;
+      for (var i = 0; i < allRows.length; i++) {
+        if (allRows[i][idx]) {
+          sum += 1;
+        }
+        idx++;
+      }
+      if (idx > 1) {
+        return true;
+      }
       return false; // fixme
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
+
       return false; // fixme
     },
 
